@@ -5,8 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Second"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tours" Height="450" Width="800"
+        DataContext="{Binding MainViewModel, Source={StaticResource Locator} }">
     <Grid>
-
+        <Grid>
+            <TabControl>
+                <TabItem Header="Payments">
+                    <DataGrid ItemsSource="{Binding PaymentViewModel.Payments}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding PaymentId}" />
+                            <DataGridTextColumn Header="VoucherId" Binding="{Binding VoucherId}" />
+                            <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate}" />
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Seasons">
+                    <DataGrid ItemsSource="{Binding SeasonViewModel.Seasons}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding SeasonId}" />
+                            <DataGridTextColumn Header="TourId" Binding="{Binding TourId}" />
+                            <DataGridTextColumn Header="SeatAmount" Binding="{Binding SeatAmount}" />
+                            <DataGridTextColumn Header="StartDate" Binding="{Binding StartDate}" />
+                            <DataGridTextColumn Header="EndDate" Binding="{Binding EndDate}" />
+                            <DataGridTextColumn Header="Closed" Binding="{Binding Closed}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Tourists">
+                    <DataGrid ItemsSource="{Binding TouristViewModel.Tourists}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding TouristId}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" />
+                            <DataGridTextColumn Header="Patronymic" Binding="{Binding Patronymic}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="TouristInfos">
+                    <DataGrid ItemsSource="{Binding TouristInfoView.TouristInfos}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding TouristId}" />
+                            <DataGridTextColumn Header="Passport" Binding="{Binding Passport}" />
+                            <DataGridTextColumn Header="City" Binding="{Binding City}" />
+                            <DataGridTextColumn Header="Country" Binding="{Binding Country}" />
+                            <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                            <DataGridTextColumn Header="ZipCode" Binding="{Binding ZipCode}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Vouchers">
+                    <DataGrid ItemsSource="{Binding VoucherViewModel.Vouchers}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding VoucherId}" />
+                            <DataGridTextColumn Header="TouristId" Binding="{Binding TouristId}" />
+                            <DataGridTextColumn Header="SeasonId" Binding="{Binding SeasonId}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Tours">
+                    <DataGrid ItemsSource="{Binding TourViewModel.Tours}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding TourId}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                            <DataGridTextColumn Header="Info" Binding="{Binding Info}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>
