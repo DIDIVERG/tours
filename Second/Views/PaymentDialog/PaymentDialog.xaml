@@ -26,7 +26,7 @@
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding VoucherId}"/>
         
         <Label Grid.Row="2" Grid.Column="0" Content="Payment Date:"/>
-        <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding PaymentDate}"/>
+        <DatePicker x:Name="DatePicker" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding PaymentDate}"/>
         
         <Label Grid.Row="3" Grid.Column="0" Content="Price:"/>
         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Price}"/>

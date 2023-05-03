@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Second.Commands;
+using Second.DTOs;
 using Second.Models;
 using Second.Views.PaymentDialog;
 
@@ -17,6 +18,8 @@ namespace Second.ViewModels
     public class PaymentViewModel : Base, INotifyPropertyChanged
     {
         private ObservableCollection<Payment> _payments = new ObservableCollection<Payment>();
+        private ObservableCollection<Payment> _paymentsDtos = new ObservableCollection<Payment>();
+
         private Payment? _selectedPayment = null;
 
         public AsyncRelayCommand AddPaymentCommand { get; private set; }
@@ -45,19 +48,25 @@ namespace Second.ViewModels
 
         private async Task AddPaymentAsync()
         {
-            var payment = new Payment() {PaymentId = Payments.Max(item => item.PaymentId) + 1};
+            var payment = new Payment() { PaymentId = Payments.Max(item => item.PaymentId) + 1 };
             var dialog = new PaymentDialog(payment);
 
             if (dialog.ShowDialog() == true)
             {
                 using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                 {
-                    db.Payments.Add(payment);
-                    await db.SaveChangesAsync();
+                    var voucher = await db.Vouchers.FindAsync(payment.VoucherId);
+                    if (voucher != null)
+                    {
+                        payment.Voucher = voucher;
+                        await db.Payments.AddAsync(payment);
+                        await db.SaveChangesAsync();
+                    }
                 }
                 Payments.Add(payment);
             }
         }
+
 
         private async Task ChangePaymentAsync()
         {
@@ -65,10 +74,17 @@ namespace Second.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                 {
-                    db.Payments.Update(SelectedPayment);
-                    await db.SaveChangesAsync();
+                    var dtoFilled = Mapper.Map<PaymentDto>(SelectedPayment);
+                    var entityToUpdate = await db.Payments.FirstOrDefaultAsync(item => item.PaymentId == SelectedPayment.PaymentId);
+
+                    if (entityToUpdate != null)
+                    {
+                        Mapper.Map(dtoFilled, entityToUpdate);
+
+                        await db.SaveChangesAsync();
+                    }
                 }
             }
         }
@@ -79,7 +95,14 @@ namespace Second.ViewModels
             {
                 using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                 {
-                    db.Payments.Remove(SelectedPayment);
+                    var dtoFilled = Mapper.Map<PaymentDto>(SelectedPayment);
+                    var entityToUpdate = await db.Payments.FirstOrDefaultAsync(item => item.PaymentId == SelectedPayment.PaymentId);
+
+                    if (entityToUpdate != null)
+                    {
+                        Mapper.Map(dtoFilled, entityToUpdate);
+                        db.Payments.Remove(entityToUpdate);
+                    }
                     await db.SaveChangesAsync();
                 }
                 Payments.Remove(SelectedPayment);
