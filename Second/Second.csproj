@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
       <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.3.23174.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.0-preview.3.23174.2" />
@@ -17,6 +18,14 @@
       </PackageReference>
       <PackageReference Include="Npgsql" Version="8.0.0-preview.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\SeasonDialog\" />
+      <Folder Include="Views\TourDialog\" />
+      <Folder Include="Views\TouristDialog\" />
+      <Folder Include="Views\TouristInfoDialog\" />
+      <Folder Include="Views\VoucherDialog\" />
     </ItemGroup>
 
 </Project>

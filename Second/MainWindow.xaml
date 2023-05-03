@@ -11,28 +11,48 @@
         <Grid>
             <TabControl>
                 <TabItem Header="Payments">
-                    <DataGrid ItemsSource="{Binding PaymentViewModel.Payments}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding PaymentId}" />
-                            <DataGridTextColumn Header="VoucherId" Binding="{Binding VoucherId}" />
-                            <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate}" />
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <StackPanel>
+                        <DataGrid SelectedItem="{Binding PaymentViewModel.SelectedPayment}" 
+                                  ItemsSource="{Binding PaymentViewModel.Payments}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding PaymentId}" />
+                                <DataGridTextColumn Header="VoucherId" Binding="{Binding VoucherId}" />
+                                <DataGridTextColumn Header="Date" Binding="{Binding PaymentDate}" />
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add" Command="{Binding PaymentViewModel.AddPaymentCommand}"/>
+                            <Button Content="Delete" Command="{Binding PaymentViewModel.DeletePaymentCommand}" 
+                                    IsEnabled="{Binding PaymentViewModel.CanEditOrDelete}"/>
+                            <Button Content="Edit" Command="{Binding PaymentViewModel.ChangePaymentCommand}" 
+                                    IsEnabled="{Binding PaymentViewModel.CanEditOrDelete}"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
+                
                 <TabItem Header="Seasons">
-                    <DataGrid ItemsSource="{Binding SeasonViewModel.Seasons}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding SeasonId}" />
-                            <DataGridTextColumn Header="TourId" Binding="{Binding TourId}" />
-                            <DataGridTextColumn Header="SeatAmount" Binding="{Binding SeatAmount}" />
-                            <DataGridTextColumn Header="StartDate" Binding="{Binding StartDate}" />
-                            <DataGridTextColumn Header="EndDate" Binding="{Binding EndDate}" />
-                            <DataGridTextColumn Header="Closed" Binding="{Binding Closed}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <StackPanel>
+                        <DataGrid ItemsSource="{Binding SeasonViewModel.Seasons}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding SeasonId}" />
+                                <DataGridTextColumn Header="TourId" Binding="{Binding TourId}" />
+                                <DataGridTextColumn Header="SeatAmount" Binding="{Binding SeatAmount}" />
+                                <DataGridTextColumn Header="StartDate" Binding="{Binding StartDate}" />
+                                <DataGridTextColumn Header="EndDate" Binding="{Binding EndDate}" />
+                                <DataGridTextColumn Header="Closed" Binding="{Binding Closed}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add" Command="{Binding SeasonViewModel.AddSeasonCommand}"/>
+                            <Button Content="Delete" Command="{Binding SeasonViewModel.DeleteSeasonCommand}"/>
+                            <Button Content="Edit" Command="{Binding SeasonViewModel.EditSeasonCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
+                
                 <TabItem Header="Tourists">
+                    <StackPanel>
                     <DataGrid ItemsSource="{Binding TouristViewModel.Tourists}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding TouristId}" />
@@ -41,10 +61,18 @@
                             <DataGridTextColumn Header="Patronymic" Binding="{Binding Patronymic}" />
                         </DataGrid.Columns>
                     </DataGrid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add" Command="{Binding SeasonViewModel.AddSeasonCommand}"/>
+                            <Button Content="Delete" Command="{Binding SeasonViewModel.DeleteSeasonCommand}"/>
+                            <Button Content="Edit" Command="{Binding SeasonViewModel.EditSeasonCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
+                
                 <TabItem Header="TouristInfos">
-                    <DataGrid ItemsSource="{Binding TouristInfoView.TouristInfos}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
+                    <StackPanel>
+                    <DataGrid SelectedItem="{Binding PaymentViewModel.SelectedPayment}" ItemsSource="{Binding TouristInfoView.TouristInfos}" AutoGenerateColumns="False">
+                        <DataGrid.Columns >
                             <DataGridTextColumn Header="Id" Binding="{Binding TouristId}" />
                             <DataGridTextColumn Header="Passport" Binding="{Binding Passport}" />
                             <DataGridTextColumn Header="City" Binding="{Binding City}" />
@@ -53,8 +81,16 @@
                             <DataGridTextColumn Header="ZipCode" Binding="{Binding ZipCode}" />
                         </DataGrid.Columns>
                     </DataGrid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add" Command="{Binding SeasonViewModel.AddSeasonCommand}"/>
+                            <Button Content="Delete" Command="{Binding SeasonViewModel.DeleteSeasonCommand}"/>
+                            <Button Content="Edit" Command="{Binding SeasonViewModel.EditSeasonCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
+                
                 <TabItem Header="Vouchers">
+                    <StackPanel>
                     <DataGrid ItemsSource="{Binding VoucherViewModel.Vouchers}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding VoucherId}" />
@@ -62,8 +98,16 @@
                             <DataGridTextColumn Header="SeasonId" Binding="{Binding SeasonId}" />
                         </DataGrid.Columns>
                     </DataGrid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add" Command="{Binding SeasonViewModel.AddSeasonCommand}"/>
+                            <Button Content="Delete" Command="{Binding SeasonViewModel.DeleteSeasonCommand}"/>
+                            <Button Content="Edit" Command="{Binding SeasonViewModel.EditSeasonCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
+                
                 <TabItem Header="Tours">
+                    <StackPanel>
                     <DataGrid ItemsSource="{Binding TourViewModel.Tours}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Binding="{Binding TourId}" />
@@ -72,7 +116,15 @@
                             <DataGridTextColumn Header="Info" Binding="{Binding Info}" />
                         </DataGrid.Columns>
                     </DataGrid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Add" Command="{Binding SeasonViewModel.AddSeasonCommand}"/>
+                            <Button Content="Delete" Command="{Binding SeasonViewModel.DeleteSeasonCommand}"/>
+                            <Button Content="Edit" Command="{Binding SeasonViewModel.EditSeasonCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
+                
+                
             </TabControl>
         </Grid>
     </Grid>

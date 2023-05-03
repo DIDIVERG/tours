@@ -44,3 +44,6 @@ C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\ref\Second.dl
 C:\Users\ILYA\RiderProjects\Second\Second\bin\Debug\net7.0-windows\EFCore.NamingConventions.dll
 C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\App.baml
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\PaymentDialog\PaymentDialog.g.cs
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\PaymentDialog\PaymentDialog.baml
+C:\Users\ILYA\RiderProjects\Second\Second\bin\Debug\net7.0-windows\AutoMapper.dll

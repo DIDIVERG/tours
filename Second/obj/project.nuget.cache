@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "IztriJ5HP3ent9WKKD2TOwA1OAk4PnILpmqgsQS2VXdv4lXMP5IsuN+B155fZfCK31O26sYNL+bOzIAscTzBgA==",
+  "dgSpecHash": "YwncGsByacSOmCC2hwv4qWlYlC4B7soVYjdz5Dwfk9kjFu9N/06idZh57QI6mT7jQwFPTox14grSC3lS7ZKYuQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\ILYA\\RiderProjects\\Second\\Second\\Second.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ILYA\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\ILYA\\.nuget\\packages\\efcore.namingconventions\\7.0.2\\efcore.namingconventions.7.0.2.nupkg.sha512",
     "C:\\Users\\ILYA\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\ILYA\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\ILYA\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0-preview.3.23174.2\\microsoft.entityframeworkcore.8.0.0-preview.3.23174.2.nupkg.sha512",
     "C:\\Users\\ILYA\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.0-preview.3.23174.2\\microsoft.entityframeworkcore.abstractions.8.0.0-preview.3.23174.2.nupkg.sha512",
     "C:\\Users\\ILYA\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.0-preview.3.23174.2\\microsoft.entityframeworkcore.analyzers.8.0.0-preview.3.23174.2.nupkg.sha512",
