@@ -49,21 +49,29 @@ public class TouristInfoViewModel: Base, INotifyPropertyChanged
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var tourist = await db.Tourists.FirstAsync(item => item.TouristId == touristInfo.TouristId)!;
-                    if (tourist != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        touristInfo.Tourist = tourist;
-                        await db.TouristInfos.AddAsync(touristInfo);
-                        await db.SaveChangesAsync();
-                        TouristInfos.Add(touristInfo);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tourist is null");
+                        var tourist = await db.Tourists.FirstAsync(item => item.TouristId == touristInfo.TouristId);
+                        if (tourist != null)
+                        {
+                            touristInfo.Tourist = tourist;
+                            await db.TouristInfos.AddAsync(touristInfo);
+                            await db.SaveChangesAsync();
+                            TouristInfos.Add(touristInfo);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tourist is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
 
@@ -73,45 +81,64 @@ public class TouristInfoViewModel: Base, INotifyPropertyChanged
             var dialog = new TouristInfoDialog(SelectedTouristInfo);
             if (dialog.ShowDialog() == true)
             {
-                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<TouristInfoDto>(SelectedTouristInfo);
-                    var entityToUpdate = await db.TouristInfos.FirstOrDefaultAsync(item => item.TouristId == SelectedTouristInfo.TouristId);
+                    await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        var dtoFilled = Mapper.Map<TouristInfoDto>(SelectedTouristInfo);
+                        var entityToUpdate = await db.TouristInfos.FirstOrDefaultAsync(item 
+                            => item.TouristId == SelectedTouristInfo.TouristId);
 
-                    if (entityToUpdate != null)
-                    {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        await db.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tourist is null");
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            await db.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tourist is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+              
             }
         }
 
         private async Task DeleteTouristInfoAsync()
         {
-            if (MessageBox.Show("Are you sure you want to delete this tourist?", "Delete TouristInfo", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this tourist?", "Delete TouristInfo",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<TouristInfoDto>(SelectedTouristInfo);
-                    var entityToUpdate = await db.TouristInfos.FirstOrDefaultAsync(item => item.TouristId == SelectedTouristInfo.TouristId);
-                    if (entityToUpdate != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        db.TouristInfos.Remove(entityToUpdate);
-                        await db.SaveChangesAsync();
-                        TouristInfos.Remove(SelectedTouristInfo);
-                        SelectedTouristInfo = null;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tourist is null");
+                        var dtoFilled = Mapper.Map<TouristInfoDto>(SelectedTouristInfo);
+                        var entityToUpdate = await db.TouristInfos.FirstOrDefaultAsync(item 
+                            => item.TouristId == SelectedTouristInfo.TouristId);
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            db.TouristInfos.Remove(entityToUpdate);
+                            await db.SaveChangesAsync();
+                            TouristInfos.Remove(SelectedTouristInfo);
+                            SelectedTouristInfo = null;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tourist is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+              
             }
         }
     

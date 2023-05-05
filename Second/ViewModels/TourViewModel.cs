@@ -18,12 +18,10 @@ public class TourViewModel : Base, INotifyPropertyChanged
     
     private ObservableCollection<Tour> _tours = new ObservableCollection<Tour>();
      private Tour? _selectedTour = null;
-
-        public AsyncRelayCommand AddTourCommand { get; private set; }
-        public AsyncRelayCommand ChangeTourCommand { get; private set; }
-        public AsyncRelayCommand DeleteTourCommand { get; private set; }
-
-        public Tour? SelectedTour
+     public AsyncRelayCommand AddTourCommand { get; private set; }
+     public AsyncRelayCommand ChangeTourCommand { get; private set; }
+    public AsyncRelayCommand DeleteTourCommand { get; private set; }
+    public Tour? SelectedTour
         {
             get => _selectedTour;
             set
@@ -33,8 +31,7 @@ public class TourViewModel : Base, INotifyPropertyChanged
                 OnPropertyChanged(nameof(CanEditOrDelete));
             }
         }
-
-        public bool CanEditOrDelete => SelectedTour != null;
+    public bool CanEditOrDelete => SelectedTour != null;
 
         public TourViewModel()
         {
@@ -50,60 +47,85 @@ public class TourViewModel : Base, INotifyPropertyChanged
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    await db.Tours.AddAsync(tourist);
-                    await db.SaveChangesAsync();
-                    Tours.Add(tourist);
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        await db.Tours.AddAsync(tourist);
+                        await db.SaveChangesAsync();
+                        Tours.Add(tourist);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             }
         }
-
 
         private async Task ChangeTourAsync()
         {
             var dialog = new TourDialog(SelectedTour);
             if (dialog.ShowDialog() == true)
             {
-                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<TourDto>(SelectedTour);
-                    var entityToUpdate = await db.Tours.FirstOrDefaultAsync(item => item.TourId == SelectedTour.TourId);
+                    await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        var dtoFilled = Mapper.Map<TourDto>(SelectedTour);
+                        var entityToUpdate = await db.Tours.FirstOrDefaultAsync(item
+                            => item.TourId == SelectedTour.TourId);
 
-                    if (entityToUpdate != null)
-                    {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        await db.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tour is null");
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            await db.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tour is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
 
         private async Task DeleteTourAsync()
         {
-            if (MessageBox.Show("Are you sure you want to delete this tourist?", "Delete Tour", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this tourist?", "Delete Tour"
+                    , MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<TourDto>(SelectedTour);
-                    var entityToUpdate = await db.Tours.FirstOrDefaultAsync(item => item.TourId == SelectedTour.TourId);
-                    if (entityToUpdate != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        db.Tours.Remove(entityToUpdate);
-                        await db.SaveChangesAsync();
-                        Tours.Remove(SelectedTour);
-                        SelectedTour = null;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tour is null");
+                        var dtoFilled = Mapper.Map<TourDto>(SelectedTour);
+                        var entityToUpdate = await db.Tours.FirstOrDefaultAsync(item 
+                            => item.TourId == SelectedTour.TourId);
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            db.Tours.Remove(entityToUpdate);
+                            await db.SaveChangesAsync();
+                            Tours.Remove(SelectedTour);
+                            SelectedTour = null;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tour is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                
             }
         }
     public ObservableCollection<Tour> Tours

@@ -50,27 +50,35 @@ public class VoucherViewModel : Base, INotifyPropertyChanged
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                  var touristInfo = await db.TouristInfos.Include(t => t.Tourist)
-                      .FirstOrDefaultAsync(item => item.TouristId == voucher.TouristId);
-                  var season = await db.Seasons.Include(s => s.Tour)
-                      .FirstOrDefaultAsync(item => item.SeasonId == voucher.SeasonId);
-                  if (touristInfo == null || season == null)
-                  {
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        var touristInfo = await db.TouristInfos.Include(t => t.Tourist)
+                            .FirstOrDefaultAsync(item => item.TouristId == voucher.TouristId);
+                        var season = await db.Seasons.Include(s => s.Tour)
+                            .FirstOrDefaultAsync(item => item.SeasonId == voucher.SeasonId);
+                        if (touristInfo == null || season == null)
+                        {
                       
-                      MessageBox.Show("Either season or tourist does not exist");
-                  }
-                  else
-                  {
-                      voucher.Season = season;
-                      voucher.TouristInfo = touristInfo;
-                      await db.Vouchers.AddAsync(voucher);
-                      await db.SaveChangesAsync();
-                      Vouchers.Add(voucher);
-                  }
+                            MessageBox.Show("Either season or tourist does not exist");
+                        }
+                        else
+                        {
+                            voucher.Season = season;
+                            voucher.TouristInfo = touristInfo;
+                            await db.Vouchers.AddAsync(voucher);
+                            await db.SaveChangesAsync();
+                            Vouchers.Add(voucher);
+                        }
                    
+                    }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
 
@@ -80,44 +88,62 @@ public class VoucherViewModel : Base, INotifyPropertyChanged
             var dialog = new VoucherDialog(SelectedVoucher);
             if (dialog.ShowDialog() == true)
             {
-                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<VoucherDto>(SelectedVoucher);
-                    var entityToUpdate = await db.Vouchers.FirstOrDefaultAsync(item => item.VoucherId == SelectedVoucher.VoucherId);
+                    await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        var dtoFilled = Mapper.Map<VoucherDto>(SelectedVoucher);
+                        var entityToUpdate = await db.Vouchers.FirstOrDefaultAsync(item => 
+                            item.VoucherId == SelectedVoucher.VoucherId);
 
-                    if (entityToUpdate != null)
-                    {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        await db.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Voucher is null");
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            await db.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Voucher is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
 
         private async Task DeleteVoucherAsync()
         {
-            if (MessageBox.Show("Are you sure you want to delete this voucher?", "Delete Voucher", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this voucher?", "Delete Voucher", 
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<VoucherDto>(SelectedVoucher);
-                    var entityToUpdate = await db.Vouchers.FirstOrDefaultAsync(item => item.VoucherId == SelectedVoucher.VoucherId);
-                    if (entityToUpdate != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        db.Vouchers.Remove(entityToUpdate);
-                        await db.SaveChangesAsync();
-                        Vouchers.Remove(SelectedVoucher);
-                        SelectedVoucher = null;
+                        var dtoFilled = Mapper.Map<VoucherDto>(SelectedVoucher);
+                        var entityToUpdate = await db.Vouchers.FirstOrDefaultAsync(item 
+                            => item.VoucherId == SelectedVoucher.VoucherId);
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            db.Vouchers.Remove(entityToUpdate);
+                            await db.SaveChangesAsync();
+                            Vouchers.Remove(SelectedVoucher);
+                            SelectedVoucher = null;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Voucher is null");
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Voucher is null");
-                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             }
         }

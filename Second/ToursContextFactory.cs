@@ -14,7 +14,7 @@ public class ToursContextFactory : IDesignTimeDbContextFactory<ToursContext>
         Port = 5432,
         Database = "tours_db",
         Username = "postgres",
-        Password = "Arista666"
+        Password = ""
     };
 
     // implementation of  IDesignTimeDbContextFactory

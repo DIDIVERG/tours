@@ -9,7 +9,7 @@
         DataContext="{Binding MainViewModel, Source={StaticResource Locator} }">
     <Grid>
         <Grid>
-            <TabControl>
+            <TabControl SelectedIndex="{Binding SelectedTabIndex}">
                 <TabItem Header="Payments">
                     <StackPanel>
                         <DataGrid SelectedItem="{Binding PaymentViewModel.SelectedPayment}" 
@@ -70,6 +70,7 @@
                                     Command="{Binding TouristViewModel.DeleteTouristCommand}"/>
                             <Button IsEnabled="{Binding TouristViewModel.CanEditOrDelete}" Content="Edit" 
                                     Command="{Binding TouristViewModel.ChangeTouristCommand}"/>
+                            <Button Content="Trigger" Command="{Binding ActivateTriggerCommand}"/>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>

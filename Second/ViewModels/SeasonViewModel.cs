@@ -51,17 +51,24 @@ public class SeasonViewModel : Base, INotifyPropertyChanged
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var tour = await db.Tours.FindAsync(season.TourId);
-                    if (tour != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        season.Tour = tour;
-                        await db.Seasons.AddAsync(season);
-                        await db.SaveChangesAsync();
+                        var tour = await db.Tours.FindAsync(season.TourId);
+                        if (tour != null)
+                        {
+                            season.Tour = tour;
+                            await db.Seasons.AddAsync(season);
+                            await db.SaveChangesAsync();
+                            Seasons.Add(season);
+                        }
                     }
                 }
-                Seasons.Add(season);
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
         }
 
@@ -72,39 +79,56 @@ public class SeasonViewModel : Base, INotifyPropertyChanged
 
             if (dialog.ShowDialog() == true)
             {
-                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<SeasonDto>(SelectedSeason);
-                    var entityToUpdate = await db.Seasons.FirstOrDefaultAsync(item => item.SeasonId == SelectedSeason.SeasonId);
-
-                    if (entityToUpdate != null)
+                    await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
+                        var dtoFilled = Mapper.Map<SeasonDto>(SelectedSeason);
+                        var entityToUpdate = await db.Seasons.FirstOrDefaultAsync(item
+                            => item.SeasonId == SelectedSeason.SeasonId);
 
-                        await db.SaveChangesAsync();
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+
+                            await db.SaveChangesAsync();
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             }
         }
 
         private async Task DeleteSeasonAsync()
         {
-            if (MessageBox.Show("Are you sure you want to delete this season?", "Delete Season", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this season?", "Delete Season",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<SeasonDto>(SelectedSeason);
-                    var entityToUpdate = await db.Seasons.FirstOrDefaultAsync(item => item.SeasonId == SelectedSeason.SeasonId);
-
-                    if (entityToUpdate != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        db.Seasons.Remove(entityToUpdate);
+                        var dtoFilled = Mapper.Map<SeasonDto>(SelectedSeason);
+                        var entityToUpdate = await db.Seasons.FirstOrDefaultAsync(item => 
+                            item.SeasonId == SelectedSeason.SeasonId);
+
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            db.Seasons.Remove(entityToUpdate);
+                            Seasons.Remove(SelectedSeason);
+                            SelectedSeason = null;
+                        }
+                        await db.SaveChangesAsync();
                     }
-                    await db.SaveChangesAsync();
                 }
-                Seasons.Remove(SelectedSeason);
-                SelectedSeason = null;
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             }
         }
     public ObservableCollection<Season> Seasons

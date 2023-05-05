@@ -52,59 +52,83 @@ namespace Second.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var voucher = await db.Vouchers.FindAsync(payment.VoucherId);
-                    if (voucher != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        payment.Voucher = voucher;
-                        await db.Payments.AddAsync(payment);
-                        await db.SaveChangesAsync();
-                        Payments.Add(payment);
+                        var voucher = await db.Vouchers.FindAsync(payment.VoucherId);
+                        if (voucher != null)
+                        {
+                            payment.Voucher = voucher;
+                            await db.Payments.AddAsync(payment);
+                            await db.SaveChangesAsync();
+                            Payments.Add(payment);
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                
             }
         }
-
-
+        
         private async Task ChangePaymentAsync()
         {
             var dialog = new PaymentDialog(SelectedPayment);
 
             if (dialog.ShowDialog() == true)
             {
-                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<PaymentDto>(SelectedPayment);
-                    var entityToUpdate = await db.Payments.FirstOrDefaultAsync(item => item.PaymentId == SelectedPayment.PaymentId);
-
-                    if (entityToUpdate != null)
+                    await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
+                        var dtoFilled = Mapper.Map<PaymentDto>(SelectedPayment);
+                        var entityToUpdate = await db.Payments.FirstOrDefaultAsync(item
+                            => item.PaymentId == SelectedPayment.PaymentId);
 
-                        await db.SaveChangesAsync();
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+
+                            await db.SaveChangesAsync();
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             }
         }
 
         private async Task DeletePaymentAsync()
         {
-            if (MessageBox.Show("Are you sure you want to delete this payment?", "Delete Payment", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this payment?", "Delete Payment", 
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<PaymentDto>(SelectedPayment);
-                    var entityToUpdate = await db.Payments.FirstOrDefaultAsync(item => item.PaymentId == SelectedPayment.PaymentId);
-
-                    if (entityToUpdate != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        db.Payments.Remove(entityToUpdate);
-                        Payments.Remove(SelectedPayment);
-                        SelectedPayment = null;
+                        var dtoFilled = Mapper.Map<PaymentDto>(SelectedPayment);
+                        var entityToUpdate = await db.Payments.FirstOrDefaultAsync(item 
+                            => item.PaymentId == SelectedPayment.PaymentId);
+
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            db.Payments.Remove(entityToUpdate);
+                            Payments.Remove(SelectedPayment);
+                            SelectedPayment = null;
+                        }
+                        await db.SaveChangesAsync();
                     }
-                    await db.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             }
         }

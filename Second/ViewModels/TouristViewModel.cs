@@ -24,7 +24,7 @@ public class TouristViewModel : Base, INotifyPropertyChanged
         public AsyncRelayCommand AddTouristCommand { get; private set; }
         public AsyncRelayCommand ChangeTouristCommand { get; private set; }
         public AsyncRelayCommand DeleteTouristCommand { get; private set; }
-
+        
         public Tourist? SelectedTourist
         {
             get => _selectedTourist;
@@ -37,7 +37,7 @@ public class TouristViewModel : Base, INotifyPropertyChanged
         }
 
         public bool CanEditOrDelete => SelectedTourist != null;
-
+        
         public TouristViewModel()
         {
             AddTouristCommand = new AsyncRelayCommand(AddTouristAsync);
@@ -52,60 +52,88 @@ public class TouristViewModel : Base, INotifyPropertyChanged
 
             if (dialog.ShowDialog() == true)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    await db.Tourists.AddAsync(tourist);
-                    await db.SaveChangesAsync();
-                    Tourists.Add(tourist);
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        await db.Tourists.AddAsync(tourist);
+                        await db.SaveChangesAsync();
+                        Tourists.Add(tourist);
+                    }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
 
+       
 
         private async Task ChangeTouristAsync()
         {
             var dialog = new TouristDialog(SelectedTourist);
             if (dialog.ShowDialog() == true)
             {
-                await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<TouristDto>(SelectedTourist);
-                    var entityToUpdate = await db.Tourists.FirstOrDefaultAsync(item => item.TouristId == SelectedTourist.TouristId);
+                    await using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                    {
+                        var dtoFilled = Mapper.Map<TouristDto>(SelectedTourist);
+                        var entityToUpdate = await db.Tourists.FirstOrDefaultAsync(item 
+                            => item.TouristId == SelectedTourist.TouristId);
 
-                    if (entityToUpdate != null)
-                    {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        await db.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tourist is null");
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            await db.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tourist is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+              
             }
         }
 
         private async Task DeleteTouristAsync()
         {
-            if (MessageBox.Show("Are you sure you want to delete this tourist?", "Delete Tourist", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this tourist?", "Delete Tourist", 
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
+                try
                 {
-                    var dtoFilled = Mapper.Map<TouristDto>(SelectedTourist);
-                    var entityToUpdate = await db.Tourists.FirstOrDefaultAsync(item => item.TouristId == SelectedTourist.TouristId);
-                    if (entityToUpdate != null)
+                    using (var db = ContextFactory.CreateDbContext(Array.Empty<string>()))
                     {
-                        Mapper.Map(dtoFilled, entityToUpdate);
-                        db.Tourists.Remove(entityToUpdate);
-                        await db.SaveChangesAsync();
-                        Tourists.Remove(SelectedTourist);
-                        SelectedTourist = null;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Tourist is null");
+                        var dtoFilled = Mapper.Map<TouristDto>(SelectedTourist);
+                        var entityToUpdate = await db.Tourists.FirstOrDefaultAsync(item 
+                            => item.TouristId == SelectedTourist.TouristId);
+                        if (entityToUpdate != null)
+                        {
+                            Mapper.Map(dtoFilled, entityToUpdate);
+                            db.Tourists.Remove(entityToUpdate);
+                            await db.SaveChangesAsync();
+                            Tourists.Remove(SelectedTourist);
+                            SelectedTourist = null;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Tourist is null");
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+               
             }
         }
     public ObservableCollection<Tourist> Tourists

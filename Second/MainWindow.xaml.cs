@@ -25,7 +25,6 @@ namespace Second
         public MainWindow()
         {
             InitializeComponent();
-            
         }
     }
 }
