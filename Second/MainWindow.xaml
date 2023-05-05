@@ -137,7 +137,20 @@
                         </StackPanel>
                     </StackPanel>
                 </TabItem>
-                
+                <TabItem Header="Query">
+                    <StackPanel>
+                        <TextBox Text="{Binding QueryViewModel.QueryText}" />
+                        <Button Content="Execute" Command="{Binding QueryViewModel.ExecuteCommand}" />
+                        <DataGrid ItemsSource="{Binding QueryViewModel.Results}" AutoGenerateColumns="True" />
+                        <Button Content="Export Xml Document" Command="{Binding QueryViewModel.ExportXmlDocumentCommand}" />
+                        <Button Content="Import Xml Document" Command="{Binding QueryViewModel.ImportXmlDocumentCommand}" />
+                        <Button Content="Export Xml Writer" Command="{Binding QueryViewModel.ExportXmlWriterCommand}" />
+                        <Button Content="Import Xml Reader" Command="{Binding QueryViewModel.ImportXmlReaderCommand}" />
+                    </StackPanel>
+                </TabItem>
+
+              
+
                 
             </TabControl>
         </Grid>

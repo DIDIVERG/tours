@@ -10,7 +10,8 @@ public class MainViewModel
     public TouristViewModel TouristViewModel { get; }
     public TourViewModel TourViewModel { get; }
     public VoucherViewModel VoucherViewModel { get; }
-
+    public QueryViewModel QueryViewModel { get; }
+    
     public MainViewModel()
     {
         PaymentViewModel = new PaymentViewModel();
@@ -19,6 +20,8 @@ public class MainViewModel
         TouristViewModel = new TouristViewModel();
         TourViewModel = new TourViewModel();
         VoucherViewModel = new VoucherViewModel();
+        ToursContextFactory factory = new ToursContextFactory();
+        QueryViewModel = new QueryViewModel(factory.connectionString.ConnectionString);
         LoadAsync();
     }
 
