@@ -6,7 +6,7 @@ public class MainViewModel
 {
     public PaymentViewModel PaymentViewModel { get; }
     public SeasonViewModel SeasonViewModel { get; }
-    public TouristInfoViewModel TouristInfoView { get; }
+    public TouristInfoViewModel TouristInfoViewModel { get; }
     public TouristViewModel TouristViewModel { get; }
     public TourViewModel TourViewModel { get; }
     public VoucherViewModel VoucherViewModel { get; }
@@ -15,7 +15,7 @@ public class MainViewModel
     {
         PaymentViewModel = new PaymentViewModel();
         SeasonViewModel = new SeasonViewModel();
-        TouristInfoView = new TouristInfoViewModel();
+        TouristInfoViewModel = new TouristInfoViewModel();
         TouristViewModel = new TouristViewModel();
         TourViewModel = new TourViewModel();
         VoucherViewModel = new VoucherViewModel();
@@ -27,7 +27,7 @@ public class MainViewModel
         await PaymentViewModel.LoadPaymentAsync();
         await SeasonViewModel.LoadSeasonAsync();
         await TouristViewModel.LoadTouristAsync();
-        await TouristInfoView.LoadTouristInfoAsync();
+        await TouristInfoViewModel.LoadTouristInfoAsync();
         await TourViewModel.LoadTourAsync();
         await VoucherViewModel.LoadVoucherAsync();
     }

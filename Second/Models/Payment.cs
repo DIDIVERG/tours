@@ -15,6 +15,7 @@ namespace Second.Models
         [ForeignKey("VoucherId")]
         [InverseProperty(nameof(Models.Voucher.Payments))]
         public virtual Voucher Voucher { get; set; } = new Voucher();
+        
 
     }
 }

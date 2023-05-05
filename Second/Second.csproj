@@ -20,12 +20,4 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.3" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\SeasonDialog\" />
-      <Folder Include="Views\TourDialog\" />
-      <Folder Include="Views\TouristDialog\" />
-      <Folder Include="Views\TouristInfoDialog\" />
-      <Folder Include="Views\VoucherDialog\" />
-    </ItemGroup>
-
 </Project>

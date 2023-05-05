@@ -47,3 +47,13 @@ C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\App.baml
 C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\PaymentDialog\PaymentDialog.g.cs
 C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\PaymentDialog\PaymentDialog.baml
 C:\Users\ILYA\RiderProjects\Second\Second\bin\Debug\net7.0-windows\AutoMapper.dll
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\SeasonDialog\SeasonDialog.g.cs
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\TourDialog\TourDialog.g.cs
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\TouristDialog\TouristDialog.g.cs
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\TouristInfoDialog\TouristInfoDialog.g.cs
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\VoucherDialog\VoucherDialog.g.cs
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\SeasonDialog\SeasonDialog.baml
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\TourDialog\TourDialog.baml
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\TouristDialog\TouristDialog.baml
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\TouristInfoDialog\TouristInfoDialog.baml
+C:\Users\ILYA\RiderProjects\Second\Second\obj\Debug\net7.0-windows\Views\VoucherDialog\VoucherDialog.baml

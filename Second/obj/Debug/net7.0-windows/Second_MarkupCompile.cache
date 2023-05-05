@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\ILYA\RiderProjects\Second\Second\App.xaml
-233495419
+71978628410
 
-35410435732
+40502113895
 214-1228923187
-MainWindow.xaml;Views\PaymentDialog\PaymentDialog.xaml;
+MainWindow.xaml;Views\PaymentDialog\PaymentDialog.xaml;Views\SeasonDialog\SeasonDialog.xaml;Views\TourDialog\TourDialog.xaml;Views\TouristDialog\TouristDialog.xaml;Views\TouristInfoDialog\TouristInfoDialog.xaml;Views\VoucherDialog\VoucherDialog.xaml;
 
 False
 

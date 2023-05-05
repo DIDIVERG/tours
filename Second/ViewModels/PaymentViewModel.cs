@@ -18,7 +18,6 @@ namespace Second.ViewModels
     public class PaymentViewModel : Base, INotifyPropertyChanged
     {
         private ObservableCollection<Payment> _payments = new ObservableCollection<Payment>();
-        private ObservableCollection<Payment> _paymentsDtos = new ObservableCollection<Payment>();
 
         private Payment? _selectedPayment = null;
 
@@ -61,9 +60,9 @@ namespace Second.ViewModels
                         payment.Voucher = voucher;
                         await db.Payments.AddAsync(payment);
                         await db.SaveChangesAsync();
+                        Payments.Add(payment);
                     }
                 }
-                Payments.Add(payment);
             }
         }
 
@@ -102,11 +101,11 @@ namespace Second.ViewModels
                     {
                         Mapper.Map(dtoFilled, entityToUpdate);
                         db.Payments.Remove(entityToUpdate);
+                        Payments.Remove(SelectedPayment);
+                        SelectedPayment = null;
                     }
                     await db.SaveChangesAsync();
                 }
-                Payments.Remove(SelectedPayment);
-                SelectedPayment = null;
             }
         }
 
